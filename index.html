@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>AngularJS • TodoMVC</title>
+		<link rel="stylesheet" href="node_modules/todomvc-common/base.css">
+		<link rel="stylesheet" href="node_modules/todomvc-app-css/index.css">
+	</head>
+	<body ng-app="todo" ng-controller="myCtrl">
+		<section id="todoapp">
+			<header id="header">
+				<h1>todos</h1>
+				<form id="todo-form">
+					<input id="new-todo" placeholder="What needs to be done?" autofocus ng-keyup="addTask($event)" ng-model="task">
+				</form>
+			</header>
+			<section id="main">
+				<input type="checkbox" id="toggle-all">
+				<label for="toggle-all">Mark all as complete</label>
+				<ul id="todo-list">
+					<li ng-repeat="item in taskList | filter:{isCompleted:condition}" ng-class="{'completed':item.isCompleted,'editing':item.isEditing}"> 
+						<div class="view">
+							<input class="toggle" type="checkbox" ng-model="item.isCompleted">
+							<label ng-dblclick="editing(item)">{{item.name}}</label>
+							<button class="destroy" ng-click="deletTask(item)"></button>
+						</div>
+						<form>
+							<input class="edit" ng-model="item.name" auto-focus ng-blur="cancel(item)">
+						</form>
+					</li>
+				</ul>
+			</section>
+			<footer id="footer">
+				<span id="todo-count">
+					<strong>{{unfinished()}}</strong>&nbsp;items left
+				</span>
+				<ul id="filters">
+					<li>
+						<a href="javascript:;" ng-click="taskStatus('All')" ng-class="{'selected':isSelected=='All'}">All</a>
+					</li>
+					<li>
+						<a href="javascript:;" ng-click="taskStatus('Active')" ng-class="{'selected':isSelected=='Active'}">Active</a>
+					</li>
+					<li>
+						<a href="javascript:;" ng-click="taskStatus('Completed')" ng-class="{'selected':isSelected=='Completed'}">Completed</a>
+					</li>
+				</ul>
+				<button id="clear-completed" ng-show="haveCompleted()" ng-click="deletCompletedTask()">Clear completed</button>
+			</footer>
+		</section>
+	</body>
+	<script type="text/javascript" src="node_modules/angular/angular.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+</html>
